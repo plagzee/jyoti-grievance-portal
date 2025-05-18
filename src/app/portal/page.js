@@ -6,8 +6,10 @@ const Menu = () => {
 
     const router = useRouter();
 
-    if (!localStorage.getItem("token")) {
-        router.push("/");
+    if (typeof window !== "undefined") {
+        if (!localStorage.getItem("token")) {
+            router.push("/");
+        }
     }
 
     return (

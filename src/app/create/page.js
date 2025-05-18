@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from "next/navigation";
+import { type } from "os";
 import { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -28,8 +29,10 @@ const Create = () => {
         console.log(mood);
     };
 
-    if (!localStorage.getItem("token")) {
-        router.push("/");
+    if (typeof window !== "undefined") {
+        if (!localStorage.getItem("token")) {
+            router.push("/");
+        }
     }
 
     const onSubmit = (e) => {
