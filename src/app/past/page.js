@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import checkLogin from "../../../middleware/checkLogin";
 import { FiTrash2 } from "react-icons/fi";
 
-export default function pastGrievances() {
+export default function PastGrievances() {
 
     const [grievances, setGrievances] = useState([]);
     const [loading, setLoading] = useState(true);
