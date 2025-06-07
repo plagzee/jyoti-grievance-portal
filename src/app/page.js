@@ -105,7 +105,7 @@ const Home = () => {
                   
                 </div>
                 <br />
-                <a className="text-blue-400 underline cursor-pointer">Read Manual</a>
+                <a className="text-blue-400 underline cursor-pointer" href="https://github.com/plagzee/jyoti-grievance-portal">Read Manual</a>
               </div>
             </div>
             

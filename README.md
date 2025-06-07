@@ -80,6 +80,7 @@ The user can choose to delete a grievance. The grievance is then deleted from th
     - Submitting grievance uses a third-party API to send an email to the user.  
 
 - 🗓️ **07-06-2025**  
+    - Prettier Design
     - Added view grievances page  
     - Added toggle status button  
     - Added delete grievance button  
@@ -92,3 +93,4 @@ The user can choose to delete a grievance. The grievance is then deleted from th
 ## 🛠️ To be added <a id="to-be-added"></a>
 - ⏳ Rate Limitations  
 - 👥 Guest accounts to view grievances  
+- 🌏 Better Design for the Create and Past Grievances Page
