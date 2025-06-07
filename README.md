@@ -1,36 +1,94 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📢 Jyoti's Grievance Portal
 
-## Getting Started
+This is a side-project where I make a fully-functional grievance portal for my girlfriend as of **07-06-2025** (DD-MM-YYYY).
 
-First, run the development server:
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The front-end is designed using [Tailwind CSS](https://tailwindcss.com/), and the back-end is powered by [MongoDB](https://www.mongodb.com/).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 📋 Contents
+- [✨ Features](#features)
+- [🚀 Getting Started](#getting-started)
+- [📝 Update Log](#update-log)
+- [🛠️ To be added](#to-be-added)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## ✨ Features <a id="features"></a>
+- ✅ Login
+- ✅ Create Grievance
+- ✅ View Grievances
 
-To learn more about Next.js, take a look at the following resources:
+### 🔐 Login <a id="login"></a>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The login uses JWT tokens, which are created on login and stored in localstorage. The token is then used to verify the user's login status and to check if the user is allowed to access certain pages.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Since the website is meant to be single-user, there are valid credentials for only one user. The username is **"keniko"** and the password is not publicly available.
 
-## Deploy on Vercel
+One with the correct username and password can login into the portal and create grievances and view grievances.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![Image not loaded](/login_image.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+#### 🛠️ How the login system works? <a id="how-login-works"></a>
+
+1. The user enters the username and password in the login form.
+2. The login form sends a POST request to the server with the username and password.
+3. The server checks if the username and password are correct.
+4. If the username and password are correct, the server returns a JWT token.
+5. The JWT token is stored in localstorage.
+6. The user is redirected to the home page.
+7. The home page uses the JWT token to check if the user is logged in.
+8. If the user is logged in, the home page shows the Main Menu.
+9. If the user is not logged in, the home page shows the login form displayed with an error message.
+
+---
+
+## 🚀 Getting Started <a id="getting-started"></a>
+
+Once logged in, the main menu consists of three options:
+
+1. 📝 Create Grievance  
+2. 📜 View Past Grievances  
+3. 🚪 Logout
+
+![Image not loaded](/main_menu.png)
+
+### 📝 Create Grievance <a id="create-grievance"></a>
+![Image not loaded](/create.png)
+
+To create a grievance, the user enters the **title** and **description** of the grievance in the form. The grievance is saved in the database.
+
+### 📜 View Grievances <a id="view-grievances"></a>
+![Image not loaded](/past.png)
+
+To view past grievances, the user can see all grievances created by other users.  
+The grievances are sorted by **date in descending order**.
+
+The user can choose to toggle the status of a grievance. The grievance is then saved in the database.
+
+The user can choose to delete a grievance. The grievance is then deleted from the database.
+
+---
+
+## 📝 Update Log <a id="update-log"></a>
+- 🗓️ **18-05-2025**  
+    - Created login page  
+    - Added create grievance page  
+    - Added logout button  
+    - Submitting grievance uses a third-party API to send an email to the user.  
+
+- 🗓️ **07-06-2025**  
+    - Added view grievances page  
+    - Added toggle status button  
+    - Added delete grievance button  
+    - Removed third party API usage  
+    - MongoDB Cluster is used to store and update grievances  
+    - Proper verification of login credentials is added  
+
+---
+
+## 🛠️ To be added <a id="to-be-added"></a>
+- ⏳ Rate Limitations  
+- 👥 Guest accounts to view grievances  

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from "next/navigation";
 import 'react-toastify/dist/ReactToastify.css';
+import checkLogin from "../../middleware/checkLogin";
 
 const Home = () => {
   
@@ -64,7 +65,7 @@ const Home = () => {
       <title>{"Jyoti's Grievance Portal"}</title>
 
       <div className="bg-pink-200 w-[100vw] h-[100vh] flex items-center justify-center m-auto">
-        <div className="container-box lg:w-[40vw] w-[90vw] h-[40vh] bg-amber-50 rounded-3xl">
+        <div className="container-box lg:w-[40vw] lg:h-[45vh] w-[90vw] h-[50vh] bg-amber-50 rounded-3xl">
           <h1 className="text-center text-black m-7 font-semibold text-2xl">{"Jyoti's Grievance Portal"}</h1>
           <form onSubmit={handleSubmit}>
             <div className="grid">
@@ -100,10 +101,16 @@ const Home = () => {
                     role="button" type="submit"> 
                     Login
                   </button>
+
+                  
                 </div>
+                <br />
+                <a className="text-blue-400 underline cursor-pointer">Read Manual</a>
               </div>
             </div>
+            
           </form>
+          
         </div>
       </div>
     </div>

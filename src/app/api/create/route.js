@@ -1,26 +1,37 @@
-import { Resend } from 'resend';
-import { NextResponse } from 'next/server';
-export async function POST(request) {
-    if (request.method === "POST") {
-        const data = await request.json();
+import connectDB from "../../../../middleware/dbConnect";
+import { NextResponse } from "next/server";
+import Grievance from "../../../../models/Grievance";
 
-        if (!data.title) {
-            return NextResponse.json({ message: "Title is required", success: false }, { status: 400 });
-        }
-        if (!data.description) {
-            return NextResponse.json({ message: "Description is required" , success: false }, { status: 400 });
-        }
 
-        const resend = new Resend(`${process.env.RESEND_API_KEY}`);
 
-        await resend.emails.send({
-            from: 'onboarding@resend.dev',
-            to: 'podgains0@gmail.com',
-            subject: `${data.title}`,
-            html: `<p>${data.description}</p>`
-          });
 
-        return NextResponse.json({ message: "Grievance created successfully", success: true }, { status: 200 });
+export async function POST(req) {
 
+    await connectDB();
+
+    const body = await req.json();
+
+
+
+    if (!body.title) {
+        return NextResponse.json({ message: "Title is required", success: false }, { status: 400 });
     }
+
+    if (!body.description) {
+        return NextResponse.json({ message: "Description is required", success: false }, { status: 400 });
+    }
+
+    const grievance = await new Grievance({
+        title: body.title,
+        description: body.description,
+        date: Date.now(),
+        status: "❌ Unresolved",
+    });
+
+    const savedGrievance = await grievance.save();
+
+    console.log(grievance);
+
+    return NextResponse.json({ message: "Grievance created successfully", success: true, grievance: grievance }, { status: 200 });
+
 }

@@ -1,45 +1,41 @@
 'use client'
 
-import { useRouter } from "next/navigation";
-import { type } from "os";
-import { useState } from "react";
+import { useState, useEffect } from "react"
+import checkLogin from "../../../middleware/checkLogin"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from "next/navigation";
 
-
-const Create = () => {
+export default function Create() {
 
     const router = useRouter();
 
-    const [ title, setTitle ] = useState("");
-    const [ description, setDescription ] = useState("");
-    const [ mood, setMood ] = useState("happy");
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
 
-    const handleTitleChange = (event) => {
-        setTitle(event.target.value);
-    };
+    useEffect(() => {
+        setIsLoggedIn(checkLogin());
+    }, []);
 
-    const handleDescriptionChange = (event) => {
-        setDescription(event.target.value);
-    };
+    if (!isLoggedIn) return null
 
-    const handleMoodChange = (event) => {
+    const handleChange = (event) => {
         event.preventDefault();
-        setMood(event.target.value);
-        console.log(mood);
-    };
 
-    if (typeof window !== "undefined") {
-        if (!localStorage.getItem("token")) {
-            router.push("/");
+        if (event.target.name === "title") {
+            setTitle(event.target.value);
+        }
+        if (event.target.name === "description") {
+            setDescription(event.target.value);
         }
     }
 
-    const onSubmit = (e) => {
-
-        e.preventDefault();
-
-        fetch("/api/create", {
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        console.log(title);
+        console.log(description);
+        const response = await fetch("/api/create", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -47,47 +43,50 @@ const Create = () => {
             body: JSON.stringify({
                 title: title,
                 description: description,
-                mood: mood,
             }),
         })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                    router.push("/success");
-                } else {
-                    toast.error(data.message);
-                }
-            });
+
+        const res = await response.json();
+
+        if (res.success) {
+            toast.success("Grievance created successfully!");
+            setTimeout(() => {
+                router.push("/success");
+            }, 2500);
+        } else {
+            toast.error(res.message);
+        }
     }
 
     return (
-        <div>
+        <>
             <ToastContainer />
-            <div className="bg-pink-400 w-[100vw] h-[100vh] flex items-center justify-center">
-                <form>
-                    <div className="bg-slate-100 w-[90vw] h-[80vh] text-black flex flex-col items-center justify-center m-auto rounded-lg">
-                        <input className="bg-white text-black font-mono text-xl p-2 w-[70vw]" type="text" placeholder="What bothers you today? 😺" value={title} onChange={handleTitleChange}></input>
+            <form onSubmit={handleSubmit}>
+                <div className="bg-cover bg-center w-screen h-screen flex justify-center items-center m-auto"
+                    style={{ backgroundColor: "#979e7c" }}>
+                    <img src="/hello_kitty2.png" className="absolute top-2 right-2 w-20 sm:w-24 md:w-28 lg:w-32" />
+
+                    <div className="bg-[#979e7c] flex flex-col items-center justify-center m-auto font-semibold font-mono lg:w-[50vw] w-[80vw] h-[70vh] border-[#20250f] border-8 rounded-2xl shadow-2xl shadow-black">
+                        <input
+                            className="w-[60vw] md:w-[40vw] h-[6vh] md:h-[5vh] border-4 border-[#20250f] rounded-md text-[#20250f] p-2 font-mono lg:text-xl text-sm"
+                            placeholder="Title"
+                            type="text"
+                            name="title"
+                            value={title}
+                            onChange={handleChange}
+                        />
                         <br />
-                        <textarea className="bg-white text-black h-[40vh] w-[70vw] font-mono text-md p-2" placeholder="Please describe here." value={description} onChange={handleDescriptionChange}></textarea>
+                        <textarea className="w-[60vw] md:w-[40vw] h-[40vh] md:h-[30vh] border-4 border-[#20250f] rounded-md text-[#20250f] p-2 font-mono lg:text-xl text-sm"
+                            placeholder="Description"
+                            name="description"
+                            value={description}
+                            onChange={handleChange}></textarea>
+
                         <br />
-                        {/**We're adding a Menu */}
-                        {/* <select className="bg-slate-700 text-white font-mono text-lg p-2" value={mood} onChange={handleMoodChange}>
-                            <option value="happy">{"Happy 😊"}</option>
-                            <option value="angry">{"Angry 😡"}</option>
-                            <option value="sad">{"Sad 😔"}</option>
-                        </select> */}
-                        <br></br>
-                        <button
-                            className="relative z-10 inline-flex items-center justify-center w-full px-8 py-3 text-lg font-bold text-white transition-all duration-200 bg-gray-900 border-2 border-transparent sm:w-auto rounded-xl font-pj hover:bg-pink-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
-                            role="button" type="submit" onClick={onSubmit}>
-                            Submit
-                        </button>
+                        <button className="w-[40vw] border-4 border-[#20250f] rounded-md text-[#20250f] p-2 font-mono cursor-pointer bg-[#7c8779] hover:bg-[#72a1ff] lg:text-xl text-sm">Submit Grievance</button>
                     </div>
-                </form>
-            </div>
-        </div>
+                </div>
+            </form>
+        </>
     )
-
 }
-
-export default Create;
